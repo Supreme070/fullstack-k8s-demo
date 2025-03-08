@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  # Replace with your actual GHCR path: ghcr.io/<your-username-or-org>
+  # Replace with your actual GHCR path
   DOCKER_REGISTRY: ghcr.io/supreme070
   KUBECONFIG_FILE: ${{ secrets.KUBECONFIG }}
 
@@ -76,7 +76,8 @@ jobs:
 
   deploy:
     needs: build-and-push
-    runs-on: ubuntu-latest
+    # Use your self-hosted runner's labels so it runs on your Mac
+    runs-on: [self-hosted, macos]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
@@ -92,7 +93,7 @@ jobs:
           
       - name: Update Kubernetes Manifests
         run: |
-          # Replace placeholders with the actual DOCKER_REGISTRY
+          # Replace placeholders with your actual DOCKER_REGISTRY
           find kubernetes -type f -name "*.yaml" -exec sed -i "s|\${DOCKER_REGISTRY}|${{ env.DOCKER_REGISTRY }}|g" {} \;
           
       - name: Deploy to Kubernetes
