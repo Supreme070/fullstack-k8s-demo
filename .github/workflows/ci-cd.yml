@@ -96,7 +96,8 @@ jobs:
       - name: Update Kubernetes Manifests
         run: |
           # Replace placeholders with your actual DOCKER_REGISTRY
-          find kubernetes -type f -name "*.yaml" -exec sed -i '' "s|\\${DOCKER_REGISTRY}|${{ env.DOCKER_REGISTRY }}|g" {} \;
+          find kubernetes -type f -name "*.yaml" -exec sed -i '' "s|${DOCKER_REGISTRY}|${{ env.DOCKER_REGISTRY }}|g" {} \;
+          
           
       - name: Deploy to Kubernetes
         run: |
