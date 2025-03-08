@@ -1,0 +1,15 @@
+# Dockerfile.dev (in the backend directory)
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy package files and install all dependencies (including dev)
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+EXPOSE 5000
+
+# Run the development command (which uses nodemon)
+CMD ["npm", "run", "dev"]

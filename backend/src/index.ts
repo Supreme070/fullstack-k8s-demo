@@ -10,11 +10,11 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-app.get('/api/health', (req: Request, res: Response) => {
+app.get('/api/health', (_req: Request, res: Response) => {
   res.status(200).json({ status: 'healthy', message: 'Server is running' });
 });
 
-app.get('/api/data', (req: Request, res: Response) => {
+app.get('/api/data', (_req: Request, res: Response) => {
   res.status(200).json({ 
     message: 'Data fetched successfully', 
     items: [
