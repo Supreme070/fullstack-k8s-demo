@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  # Replace with your actual GHCR path
+  # Replace with your actual GHCR path (e.g., ghcr.io/supreme070)
   DOCKER_REGISTRY: ghcr.io/supreme070
   KUBECONFIG_FILE: ${{ secrets.KUBECONFIG }}
 
@@ -95,10 +95,9 @@ jobs:
           
       - name: Update Kubernetes Manifests
         run: |
-          # Replace placeholders with your actual DOCKER_REGISTRY
+          # We'll look for \${DOCKER_REGISTRY} in the files (the backslash
+          # ensures the shell doesn't expand ${DOCKER_REGISTRY}):
           find kubernetes -type f -name "*.yaml" -exec sed -i '' "s|\${DOCKER_REGISTRY}|${{ env.DOCKER_REGISTRY }}|g" {} \;
-          
-          
           
       - name: Deploy to Kubernetes
         run: |

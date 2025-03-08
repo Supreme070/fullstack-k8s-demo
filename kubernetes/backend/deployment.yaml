@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: backend
-        image: ghcr.io/supreme070/backend:latest
+        # Placeholder: ${DOCKER_REGISTRY}/backend:latest
+        image: ${DOCKER_REGISTRY}/backend:latest
         ports:
         - containerPort: 5000
         env:
