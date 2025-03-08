@@ -90,11 +90,13 @@ jobs:
           mkdir -p ~/.kube
           echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
           chmod 600 ~/.kube/config
+          # Force Docker Desktop context (if needed)
+          kubectl config use-context docker-desktop
           
       - name: Update Kubernetes Manifests
         run: |
           # Replace placeholders with your actual DOCKER_REGISTRY
-          find kubernetes -type f -name "*.yaml" -exec sed -i "s|\${DOCKER_REGISTRY}|${{ env.DOCKER_REGISTRY }}|g" {} \;
+          find kubernetes -type f -name "*.yaml" -exec sed -i '' "s|\\${DOCKER_REGISTRY}|${{ env.DOCKER_REGISTRY }}|g" {} \;
           
       - name: Deploy to Kubernetes
         run: |
