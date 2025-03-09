@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
       - name: frontend
-        # Placeholder: ${DOCKER_REGISTRY}/frontend:latest
-        image: ${DOCKER_REGISTRY}/frontend:latest
+        # Placeholder: ghcr.io/supreme070/frontend:latest
+        image: ghcr.io/supreme070/frontend:latest
         ports:
         - containerPort: 80
         env:
