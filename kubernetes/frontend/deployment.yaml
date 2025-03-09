@@ -16,7 +16,6 @@ spec:
       - name: frontend
         # Placeholder: ${DOCKER_REGISTRY}/frontend:latest
         image: ${DOCKER_REGISTRY}/frontend:latest
-
         ports:
         - containerPort: 80
         env:

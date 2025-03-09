@@ -15,6 +15,7 @@ spec:
       containers:
       - name: backend
         # Placeholder: ${DOCKER_REGISTRY}/backend:latest
+        # (no backslash in the file)
         image: ${DOCKER_REGISTRY}/backend:latest
         ports:
         - containerPort: 5000

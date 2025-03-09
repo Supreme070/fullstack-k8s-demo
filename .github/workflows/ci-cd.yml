@@ -90,15 +90,14 @@ jobs:
           mkdir -p ~/.kube
           echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
           chmod 600 ~/.kube/config
-          # Force Docker Desktop context (if needed)
+          # Force Docker Desktop context (optional if you already default to it)
           kubectl config use-context docker-desktop
           
       - name: Update Kubernetes Manifests
         run: |
-          # We'll look for \${DOCKER_REGISTRY} in the files (the backslash
-          # ensures the shell doesn't expand ${DOCKER_REGISTRY}):
+          # We'll look for literal ${DOCKER_REGISTRY} in the YAML files
+          # and replace it with ghcr.io/supreme070
           find kubernetes -type f -name "*.yaml" -exec sed -i '' "s|\${DOCKER_REGISTRY}|ghcr.io/supreme070|g" {} \;
-
           
       - name: Deploy to Kubernetes
         run: |
