@@ -44,25 +44,24 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
-
-      # 1) Ensure QEMU is set up for cross-arch builds
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-
-      # 2) Set up Buildx
+      
+      # 1) Enable Docker Buildx for multi-arch
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-
-      # 3) Build & Push Backend (multi-arch)
+      
+      # 2) Build and Push Backend (multi-arch)
       - name: Build and Push Backend Image
         uses: docker/build-push-action@v4
         with:
           context: ./backend
+          # The key line for multi-arch:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ env.DOCKER_REGISTRY }}/backend:latest,${{ env.DOCKER_REGISTRY }}/backend:${{ github.sha }}
-
-      # 4) Build & Push Frontend (multi-arch)
+          cache-from: type=registry,ref=${{ env.DOCKER_REGISTRY }}/backend:buildcache
+          cache-to: type=registry,ref=${{ env.DOCKER_REGISTRY }}/backend:buildcache,mode=max
+          
+      # 3) Build and Push Frontend (multi-arch)
       - name: Build and Push Frontend Image
         uses: docker/build-push-action@v4
         with:
@@ -70,7 +69,8 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ env.DOCKER_REGISTRY }}/frontend:latest,${{ env.DOCKER_REGISTRY }}/frontend:${{ github.sha }}
-
+          cache-from: type=registry,ref=${{ env.DOCKER_REGISTRY }}/frontend:buildcache
+          cache-to: type=registry,ref=${{ env.DOCKER_REGISTRY }}/frontend:buildcache,mode=max
 
 
   deploy:
