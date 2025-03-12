@@ -14,7 +14,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://backend:5000';
         const response = await fetch(`${apiUrl}/api/data`);
         const data = await response.json();
         setItems(data.items);
